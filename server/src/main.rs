@@ -11,7 +11,9 @@ async fn main() -> io::Result<()> {
 	dotenv().ok();
 
 	Builder::new()
-		.format(|buf, record| writeln!(buf, "{} [{}] - {}", Local::now().format("%H:%M:%S |"), record.level(), record.args()))
+		.format(|buf, record| {
+			writeln!(buf, "{} [{}] - {}", Local::now().format("%H:%M:%S |"), record.level(), record.args())
+		})
 		.filter(None, LevelFilter::Info)
 		.init();
 

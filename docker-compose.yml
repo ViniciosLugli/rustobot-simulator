@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  interface:
+    container_name: rustobot-interface
+    build:
+      context: ./interface
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    profiles: [ "development", "production", "test" ]
+
+  server:
+    container_name: rustobot-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8393:8393"
+    profiles: [ "development", "production", "test" ]
+
+  database:
+    container_name: rustobot-database
+    image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "rustobotdb"
+    ports:
+      - "5432:5432"
+    profiles: [ "development" ]
