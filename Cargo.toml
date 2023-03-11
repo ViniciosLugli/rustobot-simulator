@@ -1,0 +1,12 @@
+[package]
+name = "rustobot-simulator"
+version = "0.0.1"
+description = "Simulador de código aberto que integra Tecnologias de Automação e de Informação, permitindo controlar o robô inteligente Dobot Magician Lite utilizando Rust e Godot."
+authors = ["Vinicios Lugli <vinicioslugli@gmail.com>"]
+readme = "README.md"
+edition = "2021"
+
+[workspace]
+members = ["server", "interface"]
+default-members = ["server"]
+
