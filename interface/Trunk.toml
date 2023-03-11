@@ -1,3 +1,5 @@
 [build]
 dist = "dist/"
 target = "index.html"
+address = "localhost"
+port = 8080
