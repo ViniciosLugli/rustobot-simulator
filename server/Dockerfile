@@ -14,15 +14,3 @@ WORKDIR /server
 
 # Copy the all files from the host to the container (except the ones in .dockerignore)
 COPY . .
-
-# Check if the COMPOSE_PROFILES is production
-CMD if [ "$COMPOSE_PROFILES" = "production" ]; then \
-	# Run the server in release mode
-	cargo run --release; \
-	elif [ "$COMPOSE_PROFILES" = "test" ]; then \
-	# Run tests in server for CI
-	cargo test; \
-	else \
-	# Run the server in debug mode (watch mode)
-	cargo watch -w src -x 'run'; \
-	fi

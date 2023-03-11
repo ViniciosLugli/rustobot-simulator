@@ -15,15 +15,3 @@ WORKDIR /interface
 
 # Copy the all files from the host to the container (except the ones in .dockerignore)
 COPY . .
-
-# Check if the COMPOSE_PROFILES is production
-CMD if [ "$COMPOSE_PROFILES" = "production" ]; then \
-	# Run the interface in release mode
-	trunk--config Trunk.toml --release serve; \
-	elif [ "$COMPOSE_PROFILES" = "test" ]; then \
-	# Run tests in interface for CI
-	cargo test; \
-	else \
-	# Run the interface in debug mode (watch mode)
-	trunk --config Trunk.toml serve; \
-	fi

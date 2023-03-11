@@ -16,7 +16,9 @@
 	"settings": {
 		"files.exclude": {
 			"interface": true,
-			"server": true
-		}
+			"server": true,
+			"**/Cargo.lock": true
+		},
+		"explorerExclude.backup": {}
 	}
 }

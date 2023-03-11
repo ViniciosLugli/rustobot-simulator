@@ -1,5 +1,5 @@
 # Rust and Cargo
-/target
+target
 cargo.lock
 Cargo.lock
 **/*.rs.bk
