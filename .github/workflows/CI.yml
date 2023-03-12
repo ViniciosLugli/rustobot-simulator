@@ -19,8 +19,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "docker_test"
-  docker_test:
+  # This workflow contains a single job called "docker-test"
+  docker-test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -33,11 +33,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      # Start the docker containers in test mode
-      - name: Start containers and run the tests
-        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" up --build
+      # Build the docker containers
+      - name: Build containers
+        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" build
 
-      # Stop containers
+      ### Run the containers tests for each workspace
+
+      - name: Test interface container
+        run: |
+          docker-compose -f "docker-compose.yml" run --rm interface cargo test
+          docker-compose -f "docker-compose.yml" run --rm interface trunk build
+
+      - name: Test server container
+        run: docker-compose -f "docker-compose.yml" run --rm server cargo test
+
+      # Stop containers if any of the previous steps failed or if the job was cancelled
       - name: Stop containers
         if: always()
         run: docker-compose -f "docker-compose.yml" down
