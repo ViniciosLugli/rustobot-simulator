@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "root"
+		},
+		{
+			"path": "interface",
+			"name": "interface"
+		},{
+			"path": "server",
+			"name": "server"
+		},
+	],
+
+	"settings": {
+		"files.exclude": {
+			"interface": true,
+			"server": true,
+			"**/Cargo.lock": true
+		},
+		"explorerExclude.backup": {}
+	}
+}
