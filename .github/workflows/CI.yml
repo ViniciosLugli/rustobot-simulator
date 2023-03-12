@@ -38,8 +38,8 @@ jobs:
       # Exec test commands in each workspace
       - name: Run tests
         run: |
-          COMPOSE_PROFILES=development docker-compose exec interface cargo test
-          COMPOSE_PROFILES=development docker-compose exec server cargo test
+          COMPOSE_PROFILES=test docker-compose exec interface cargo test
+          COMPOSE_PROFILES=test docker-compose exec server cargo test
 
       # Stop containers
       - name: Stop containers
