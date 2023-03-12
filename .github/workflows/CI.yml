@@ -33,16 +33,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      # Start the docker containers in test
-      - name: Start containers
-        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" up -d --build
-
-      ## Exec test commands in each workspace
-      - name: Run tests of interface
-        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" exec interface cargo test
-
-      - name: Run tests of server
-        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" exec server cargo test
+      # Start the docker containers in test mode
+      - name: Start containers and run the tests
+        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" up --build
 
       # Stop containers
       - name: Stop containers
