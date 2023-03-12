@@ -47,8 +47,8 @@ jobs:
 
       - name: Test interface container
         run: |
-          docker-compose -f "docker-compose.yml" run --rm interface cargo test
-          docker-compose -f "docker-compose.yml" run --rm interface trunk build
+          COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" run --rm interface cargo test
+          COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" run --rm interface trunk build
 
       - name: Test server container
         run: docker-compose -f "docker-compose.yml" run --rm server cargo test
@@ -56,4 +56,4 @@ jobs:
       # Stop containers if any of the previous steps failed or if the job was cancelled
       - name: Stop containers
         if: always()
-        run: docker-compose -f "docker-compose.yml" down
+        run: COMPOSE_PROFILES=test docker-compose -f "docker-compose.yml" down
