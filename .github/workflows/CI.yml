@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Timeout for the job
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

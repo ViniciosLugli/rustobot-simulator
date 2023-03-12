@@ -5,7 +5,7 @@ FROM rust:slim-bullseye
 RUN apt-get --yes update && apt-get --yes install pkg-config libssl-dev
 
 # Install cargo-watch for hot reloading if the ENVIRONMENT variable is not set to "production"
-RUN if [ "$ENVIRONMENT" != "production" ]; then \
+RUN if [ "$ENVIRONMENT" == "development" ]; then \
 	cargo install cargo-watch; \
 	fi
 
