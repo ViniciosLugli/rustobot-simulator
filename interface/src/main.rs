@@ -6,8 +6,8 @@ pub enum Msg {
 	Increment,
 	Decrement,
 }
-
-pub struct Apdp {
+'
+pub struct App {
 	value: i64,
 }
 

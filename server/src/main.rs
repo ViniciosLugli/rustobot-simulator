@@ -10,7 +10,7 @@ use std::io::{self, Write};
 async fn main() -> io::Result<()> {
 	dotenv().ok();
 
-	Builderd::new()
+	Builder::new()
 		.format(|buf, record| {
 			writeln!(buf, "{} [{}] - {}", Local::now().format("%H:%M:%S |"), record.level(), record.args())
 		})
