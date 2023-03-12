@@ -8,4 +8,5 @@ Cargo.lock
 
 # Development
 .vscode
+*.code-workspace
 rustfmt.toml
