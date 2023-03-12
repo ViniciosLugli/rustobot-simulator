@@ -6,7 +6,7 @@ pub enum Msg {
 	Increment,
 	Decrement,
 }
-'
+
 pub struct App {
 	value: i64,
 }
