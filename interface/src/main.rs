@@ -7,7 +7,7 @@ pub enum Msg {
 	Decrement,
 }
 
-pub struct App {
+pub struct Apdp {
 	value: i64,
 }
 
