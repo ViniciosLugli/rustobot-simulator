@@ -1,7 +1,27 @@
 # Rustobot Simulator
 Open source simulator that integrates Automation and Information Technologies, allowing to control the intelligent robot Dobot Magician Lite in a simulated way using Rust and Godot.
 
-## Setup environment
+## Goals of project
+Backend:
+- [ ] Develop a backend capable of storing information such as robot displacement, position, and sending real-time information to a simulation environment.
+	- [ ] Determine the database structure and choose a database management system (DBMS).
+	- [ ] Implement a RESTful API to handle incoming and outgoing data from clients.
+	- [ ] Implement middleware to handle data processing and communication between the API and the database.
+
+Frontend:
+- [ ] Develop a frontend application that allows users to interact with the system.
+	- [ ] Design the user interface (UI) and user experience (UX) of the application.
+	- [ ] Implement a feature that allows users to request robot movements in joint or global coordinates.
+	- [ ] Implement a feature that allows users to view the current position of the robot in the UI.
+	- [ ] Implement a feature that stores each robot movement requested by the user.
+
+Simulator:
+- [ ] Implement a system for simulating the robotic arm's behavior using a 3D representation of its kinematic chain.
+	- [ ] Choose a game engine for implementing the simulation, such as Godot ( probably it will be used ).
+	- [ ] Implement a mechanism for requesting the API to update the robot's target position.
+	- [ ] Implement a mechanism for receiving the robot's current position from the API and updating it in the simulation.
+
+## Setup environment for development
 
 ### Clone the repository
 
