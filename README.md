@@ -1,5 +1,5 @@
 # Rustobot Simulator
-Open source simulator that integrates Automation and Information Technologies, allowing to control the intelligent robot Dobot Magician Lite in a simulated way using Rust and Godot.
+Open source simulator that integrates Automation and Information Technologies, allowing to control the intelligent robot Dobot Magician Lite in a simulated way using Rust and Godot engine.
 
 ## Goals of project
 Backend:
