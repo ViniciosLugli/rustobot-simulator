@@ -17,6 +17,12 @@ on:
       - feat/**
       - fix/**
   pull_request:
+    paths-ignore:
+      - "LICENSE"
+      - "*.md"
+      - ".gitignore"
+      - ".github/**"
+      - "*.code-workspace"
     branches:
       - main
 
