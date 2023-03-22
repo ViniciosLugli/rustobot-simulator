@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      CARGO_TERM_COLOR: always
     profiles:
       - development
       - production
@@ -22,6 +24,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8393:8393"
+    environment:
+      CARGO_TERM_COLOR: always
     profiles:
       - development
       - production
