@@ -9,3 +9,4 @@ yew = { version="0.20.0", features = ["csr"] }
 js-sys = "0.3.61"
 gloo = "0.8.0"
 wasm-bindgen = "0.2.84"
+monaco = { git = "https://github.com/siku2/rust-monaco", features = ["yew-components"] }
