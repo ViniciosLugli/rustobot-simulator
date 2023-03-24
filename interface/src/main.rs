@@ -1,7 +1,7 @@
 use yew;
 mod components;
 
-use components::App;
+use components::app::App;
 
 fn main() {
 	yew::Renderer::<App>::new().render();
