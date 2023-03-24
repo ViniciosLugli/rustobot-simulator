@@ -15,7 +15,7 @@ services:
       - production
       - test
     # The command use bash to verify the COMPOSE_PROFILES variable and run the appropriate command.
-    command: bash -c '{ [ "$COMPOSE_PROFILES" = "production" ] && trunk --config Trunk.toml serve --release; } || { [ "$COMPOSE_PROFILES" = "development" ] && trunk --config Trunk.toml serve; }'
+    command: bash -c '{ [ "$COMPOSE_PROFILES" = "production" ] && trunk --config Trunk.toml serve --release; } || { [ "$COMPOSE_PROFILES" = "development" ] && trunk --config Trunk.toml watch; }'
 
   server:
     container_name: rustobot-server
