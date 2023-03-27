@@ -16,7 +16,7 @@ mod features {
 	}
 
 	pub fn handle_division_drag_event(app: &mut App, event: DragEvent) -> bool {
-		event.prevent_default();
+		event.data_transfer().unwrap().set_drag_image(&window().document().unwrap().create_element("div").unwrap(), 0, 0);
 		console::log!(format!("Drag event to position: x: {}, y: {}", event.client_x(), event.client_y()));
 		match features::calculate_components_division(event) {
 			Some(percentage) => {
@@ -33,6 +33,7 @@ pub struct App {
 }
 
 pub enum AppMsg {
+	DivisionOnDragStart(DragEvent),
 	DivisionOnDrag(DragEvent),
 	DivisionOnDragEnd(DragEvent),
 	EditorOnUpdate(ContentEventData),
@@ -53,6 +54,7 @@ impl Component for App {
 					<Dashboard />
 				</div>
 				<div id="app__division" draggable="true"
+					ondragstart={context.link().callback(|event: DragEvent| AppMsg::DivisionOnDragStart(event))}
 					ondrag={context.link().callback(|event: DragEvent| AppMsg::DivisionOnDrag(event))}
 					ondragend={context.link().callback(|event: DragEvent| AppMsg::DivisionOnDragEnd(event))}>
 				</div>
@@ -63,11 +65,12 @@ impl Component for App {
 		}
 	}
 
-	fn update(&mut self, context: &Context<Self>, message: Self::Message) -> bool {
+	fn update(&mut self, _context: &Context<Self>, message: Self::Message) -> bool {
 		match message {
-			AppMsg::DivisionOnDrag(event) | AppMsg::DivisionOnDragEnd(event) => {
+			AppMsg::DivisionOnDrag(event) | AppMsg::DivisionOnDragEnd(event) | AppMsg::DivisionOnDragStart(event) => {
 				features::handle_division_drag_event(self, event)
 			}
+
 			AppMsg::EditorOnUpdate(event) => {
 				console::log!(&format!("Model updated content: {}", event.model.get_value()));
 				console::log!(&format!("Changed data: {:?}", event.changed.changes()));
