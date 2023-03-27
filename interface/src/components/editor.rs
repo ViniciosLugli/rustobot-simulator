@@ -4,27 +4,30 @@ use monaco::{
 	yew::CodeEditor,
 };
 use std::rc::Rc;
-use yew::{html, Callback, Component, Context, Html, Properties};
+use yew::prelude::*;
 
-const CONTENT_DEFAULT: &str = r#"
--- This is a sample Lua script for rustobot-simulator
-function fact (n)
-		if n == 0 then
-	return 1
-	else
-		return n * fact(n-1)
-	end
-end
-
-a = 10        -- template number
-print(fact(a))
-"#;
-
-mod editor_implementation {
+mod features {
 	use super::*;
 
-	pub fn get_options() -> CodeEditorOptions {
-		CodeEditorOptions::default().with_builtin_theme(BuiltinTheme::VsDark)
+	pub const CONTENT_DEFAULT: &str = r#"
+	-- This is a sample Lua script for rustobot-simulator
+	function fact (n)
+			if n == 0 then
+		return 1
+		else
+			return n * fact(n-1)
+		end
+	end
+
+	a = 10        -- template number
+	print(fact(a))
+	"#;
+
+	pub fn get_default_options() -> CodeEditorOptions {
+		CodeEditorOptions::default()
+			.with_builtin_theme(BuiltinTheme::VsDark)
+			.with_automatic_layout(true)
+			.with_scroll_beyond_last_line(false)
 	}
 }
 
@@ -45,10 +48,13 @@ pub struct Editor {
 #[derive(Properties, PartialEq, Clone)]
 pub struct EditorProps {
 	#[prop_or(None)]
-	pub update_callback: Option<UpdateCallback>,
+	pub on_update: Option<UpdateCallback>,
 
-	#[prop_or(CONTENT_DEFAULT.to_string())]
+	#[prop_or(features::CONTENT_DEFAULT.to_string())]
 	pub content: String,
+
+	#[prop_or(features::get_default_options())]
+	pub options: CodeEditorOptions,
 }
 
 pub enum EditorMsg {
@@ -63,11 +69,12 @@ impl Component for Editor {
 		let model = TextModel::create(&context.props().content, Some("lua"), None).unwrap();
 		let callback = context.link().callback(EditorMsg::ModelContentChanged);
 		let listener = model.on_did_change_content(move |ev| callback.emit(ev));
+
 		Self {
-			options: Rc::new(editor_implementation::get_options()),
+			options: Rc::new(context.props().options.clone()),
 			model,
 			_listener: listener,
-			update_callback: context.props().update_callback.clone(),
+			update_callback: context.props().on_update.clone(),
 		}
 	}
 
@@ -77,12 +84,12 @@ impl Component for Editor {
 
 	fn view(&self, _context: &Context<Self>) -> Html {
 		html! {
-			<CodeEditor classes={"code-editor"} options={ self.options.to_sys_options() } model={ self.model.clone() } />
+			<CodeEditor classes={"editor__code-editor"} options={ self.options.to_sys_options() } model={ self.model.clone() } />
 		}
 	}
 
-	fn update(&mut self, _context: &Context<Self>, msg: EditorMsg) -> bool {
-		match msg {
+	fn update(&mut self, _context: &Context<Self>, message: EditorMsg) -> bool {
+		match message {
 			EditorMsg::ModelContentChanged(ev) => {
 				if let Some(callback) = &self.update_callback {
 					callback.emit(ContentEventData { changed: ev, model: self.model.clone() });

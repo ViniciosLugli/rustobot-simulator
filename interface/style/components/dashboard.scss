@@ -1,0 +1,30 @@
+@use "../utils";
+
+@mixin dashboard-font {
+	font-family: "Roboto Mono", monospace;
+	font-size: 1rem;
+	color: #bab6c0;
+}
+
+#dashboard {
+	@include utils.full-size;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#dashboard__robot-data {
+	@include dashboard-font;
+	@include utils.full-size;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#dashboard__robot-controls {
+	@include dashboard-font;
+	@include utils.full-size;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

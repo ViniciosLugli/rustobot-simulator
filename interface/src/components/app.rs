@@ -1,48 +1,78 @@
-use super::editor::Editor;
-use gloo::console;
-use yew::{html, Component, Context, Html};
-pub struct App;
-
-mod app_implementation {
+use super::{
+	dashboard::Dashboard,
+	editor::{ContentEventData, Editor, UpdateCallback},
+};
+use gloo::{console, utils::window};
+use yew::prelude::*;
+mod features {
 	use super::*;
 
-	pub mod editor {
-		use super::{
-			super::super::editor::{ContentEventData, UpdateCallback},
-			*,
-		};
+	pub fn calculate_components_division(event: DragEvent) -> Option<f64> {
+		if event.client_x() <= 0 && event.client_y() <= 0 {
+			return None;
+		}
+		let window_width = window().inner_width().unwrap().as_f64().unwrap();
+		Some((event.client_x() as f64) / window_width * 100.0)
+	}
 
-		use yew::Callback;
-
-		pub fn get_update_callback() -> Option<UpdateCallback> {
-			Some(Callback::from(move |event_data: ContentEventData| {
-				console::log!(&format!("Model updated content: {}", event_data.model.get_value()));
-				console::log!(&format!("Changed data: {:?}", event_data.changed.changes()));
-			}))
+	pub fn handle_division_drag_event(app: &mut App, event: DragEvent) -> bool {
+		event.prevent_default();
+		console::log!(format!("Drag event to position: x: {}, y: {}", event.client_x(), event.client_y()));
+		match features::calculate_components_division(event) {
+			Some(percentage) => {
+				console::log!(format!("Percentage: {}", percentage));
+				app.componentes_division_percentage = percentage.min(70.0).max(15.0);
+				true
+			}
+			None => false,
 		}
 	}
 }
+pub struct App {
+	componentes_division_percentage: f64,
+}
 
-pub enum AppMsg {}
+pub enum AppMsg {
+	DivisionOnDrag(DragEvent),
+	DivisionOnDragEnd(DragEvent),
+	EditorOnUpdate(ContentEventData),
+}
 
 impl Component for App {
 	type Message = AppMsg;
 	type Properties = ();
 
 	fn create(_context: &Context<Self>) -> Self {
-		Self
+		Self { componentes_division_percentage: 20.0 }
 	}
 
-	fn view(&self, _context: &Context<Self>) -> Html {
+	fn view(&self, context: &Context<Self>) -> Html {
 		html! {
 			<div id="app">
-				<div id="app__editor-container">
-					<Editor  update_callback={app_implementation::editor::get_update_callback()} />
+				<div id="app__dashboard-container" style={format!("width: {}%", self.componentes_division_percentage)}>
+					<Dashboard />
 				</div>
-				<div id="app__editor-container">
-					<Editor  update_callback={app_implementation::editor::get_update_callback()} />
+				<div id="app__division" draggable="true"
+					ondrag={context.link().callback(|event: DragEvent| AppMsg::DivisionOnDrag(event))}
+					ondragend={context.link().callback(|event: DragEvent| AppMsg::DivisionOnDragEnd(event))}>
+				</div>
+				<div id="app__editor-container" style={format!("width: {}%", 100.0 - self.componentes_division_percentage)}>
+					<Editor on_update={context.link().callback(|event: ContentEventData| AppMsg::EditorOnUpdate(event))} />
 				</div>
 			</div>
+		}
+	}
+
+	fn update(&mut self, context: &Context<Self>, message: Self::Message) -> bool {
+		match message {
+			AppMsg::DivisionOnDrag(event) | AppMsg::DivisionOnDragEnd(event) => {
+				features::handle_division_drag_event(self, event)
+			}
+			AppMsg::EditorOnUpdate(event) => {
+				console::log!(&format!("Model updated content: {}", event.model.get_value()));
+				console::log!(&format!("Changed data: {:?}", event.changed.changes()));
+				false
+			}
 		}
 	}
 }

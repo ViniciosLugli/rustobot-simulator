@@ -1,5 +1,6 @@
 @use "app";
-@use "code-editor";
+@use "components/code-editor";
+@use "components/dashboard.scss";
 
 #main-container {
 	height: 100vh;

@@ -3,10 +3,28 @@
 #app {
 	@include utils.full-size;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 }
 
 #app__editor-container {
-	@include utils.full-size;
+	@include utils.full-height;
+	width: 100%;
 	display: flex;
+	border-top: 3px solid #3a3a3a;
 }
+
+#app__dashboard-container {
+	@include utils.full-height;
+	width: 20%;
+	display: flex;
+	background-color: #191919;
+}
+
+#app__division {
+	@include utils.full-height;
+	width: 10px;
+	min-width: 10px;
+	background-color: #2a2a2a;
+}
+
+// Make division between editor and dashboard draggable to resize

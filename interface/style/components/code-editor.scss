@@ -1,0 +1,5 @@
+@use "../utils";
+
+.editor__code-editor {
+	@include utils.full-size;
+}
