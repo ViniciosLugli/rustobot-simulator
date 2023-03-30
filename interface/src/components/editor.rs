@@ -10,18 +10,17 @@ mod features {
 	use super::*;
 
 	pub const CONTENT_DEFAULT: &str = r#"
-	-- This is a sample Lua script for rustobot-simulator
-	function fact (n)
-			if n == 0 then
-		return 1
-		else
-			return n * fact(n-1)
-		end
+-- This is a sample Lua script for rustobot-simulator
+function fact (n)
+		if n == 0 then
+	return 1
+	else
+		return n * fact(n-1)
 	end
+end
 
-	a = 10        -- template number
-	print(fact(a))
-	"#;
+a = 10        -- template number
+print(fact(a))"#;
 
 	pub fn get_default_options() -> CodeEditorOptions {
 		CodeEditorOptions::default()

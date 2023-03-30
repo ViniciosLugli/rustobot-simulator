@@ -17,7 +17,7 @@
 	@include dashboard-font;
 	@include utils.full-size;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-between;
 }
 
@@ -25,6 +25,43 @@
 	@include dashboard-font;
 	@include utils.full-size;
 	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#dashboard__robot-data-container {
+	@include utils.full-size;
+	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+}
+
+.dashboard__robot-data-positions__item {
+	@include utils.full-size;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	margin-top: 1rem;
+}
+
+.dashboard__robot-data-positions__item__name {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+
+	&:after {
+		content: ":";
+	}
+}
+
+.dashboard__robot-data-positions__item__value {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.robot-data-item--position {
+}
+
+.robot-data-item--claw {
 }

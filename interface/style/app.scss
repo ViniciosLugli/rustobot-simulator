@@ -8,24 +8,23 @@
 
 #app__editor-container {
 	@include utils.full-height;
-	width: 100%;
+	min-width: 550px;
 	display: flex;
 	border-top: 3px solid #3a3a3a;
 }
 
 #app__dashboard-container {
 	@include utils.full-height;
-	width: 20%;
+	min-width: 250px;
 	display: flex;
 	background-color: #191919;
 }
 
 #app__division {
 	@include utils.full-height;
-	width: 10px;
-	min-width: 10px;
+	width: 6px;
+	min-width: 6px;
+	max-width: 6px;
 	background-color: #2a2a2a;
 	cursor: col-resize;
 }
-
-// Make division between editor and dashboard draggable to resize

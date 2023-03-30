@@ -1,6 +1,6 @@
 use super::{
 	dashboard::Dashboard,
-	editor::{ContentEventData, Editor, UpdateCallback},
+	editor::{ContentEventData, Editor},
 };
 use gloo::{console, utils::window};
 use yew::prelude::*;
@@ -16,7 +16,6 @@ mod features {
 	}
 
 	pub fn handle_division_drag_event(app: &mut App, event: DragEvent) -> bool {
-		event.data_transfer().unwrap().set_drag_image(&window().document().unwrap().create_element("div").unwrap(), 0, 0);
 		console::log!(format!("Drag event to position: x: {}, y: {}", event.client_x(), event.client_y()));
 		match features::calculate_components_division(event) {
 			Some(percentage) => {
@@ -67,7 +66,16 @@ impl Component for App {
 
 	fn update(&mut self, _context: &Context<Self>, message: Self::Message) -> bool {
 		match message {
-			AppMsg::DivisionOnDrag(event) | AppMsg::DivisionOnDragEnd(event) | AppMsg::DivisionOnDragStart(event) => {
+			AppMsg::DivisionOnDrag(event) | AppMsg::DivisionOnDragEnd(event) => {
+				features::handle_division_drag_event(self, event)
+			}
+
+			AppMsg::DivisionOnDragStart(event) => {
+				event.data_transfer().unwrap().set_drag_image(
+					&window().document().unwrap().create_element("div").unwrap(),
+					0,
+					0,
+				);
 				features::handle_division_drag_event(self, event)
 			}
 
