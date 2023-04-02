@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://colhfpv1r5xtx"]
+
+[ext_resource type="Script" path="res://sources/Workspace.cs" id="1_wv87r"]
+[ext_resource type="PackedScene" uid="uid://rlifx2aw57dl" path="res://scenes/RobotArm.tscn" id="2_x5snu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i4dd6"]
+size = Vector2(4, 4)
+
+[node name="Workspace" type="Node3D"]
+script = ExtResource("1_wv87r")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0.8, 2.676)
+current = true
+
+[node name="RobotArm" parent="." instance=ExtResource("2_x5snu")]
+
+[node name="Ambient" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Ambient"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.40179, 2.05989, 0)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Ambient"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25529, 2.05989, 0)
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Ambient"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126919, 1.82969, -1.08138)
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Ambient"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.126919, 1.82969, 0.984165)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Ambient"]
+mesh = SubResource("PlaneMesh_i4dd6")
+skeleton = NodePath("../..")
