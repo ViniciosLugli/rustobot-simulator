@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="simulator"
-run/main_scene="res://scenes/workspace.tscn"
+run/main_scene="res://scenes/Workspace.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

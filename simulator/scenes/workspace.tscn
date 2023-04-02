@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqkuu5cgrwo8a"]
-
-[ext_resource type="Script" path="res://sources/workspace.cs" id="1_ax0l6"]
-
-[node name="Workspace" type="Node3D"]
-script = ExtResource("1_ax0l6")
