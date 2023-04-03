@@ -6,25 +6,20 @@ Open source simulator that integrates Automation and Information Technologies, a
 
 Backend:
 
--   [ ] Develop a backend capable of storing information such as robot displacement, position, and sending real-time information to a simulation environment.
-    -   [ ] Determine the database structure and choose a database management system (DBMS).
-    -   [ ] Implement a RESTful API to handle incoming and outgoing data from clients.
-    -   [ ] Implement middleware to handle data processing and communication between the API and the database.
+- [x] *Create a REST API to receive commands for simulation and frontend* (Temporary solution).
+- [x] Implement a database to manage the history of the simulation and commands.
+- [ ] Create a websocket to replace the REST API and send the data realtime ( without request delay ).
 
 Frontend:
-
--   [ ] Develop a frontend application that allows users to interact with the system.
-    -   [ ] Design the user interface (UI) and user experience (UX) of the application.
-    -   [ ] Implement a feature that allows users to request robot movements in joint or global coordinates.
-    -   [ ] Implement a feature that allows users to view the current position of the robot in the UI.
-    -   [ ] Implement a feature that stores each robot movement requested by the user.
+- [x] Create a interface to send commands to the backend.
+- [x] Show the values of simulation in the interface.
+- [ ] Create a interface to manage the simulation history.
+- [ ] Implement Editor code to send commands to the backend with Lua or GDscript.
 
 Simulator:
-
--   [ ] Implement a system for simulating the robotic arm's behavior using a 3D representation of its kinematic chain.
-    -   [ ] Choose a game engine for implementing the simulation, such as Godot ( probably it will be used ).
-    -   [ ] Implement a mechanism for requesting the API to update the robot's target position.
-    -   [ ] Implement a mechanism for receiving the robot's current position from the API and updating it in the simulation.
+- [x] Create a simulator to simulate the robot with X, Y, Z and R values.
+- [x] Simulation self update with the values of the backend, every time ( not realtime ).
+- [ ] Realtime simulation with the values of the backend.
 
 ## Setup environment for development
 
@@ -38,7 +33,7 @@ git clone git@github.com:ViniciosLugli/rustobot-simulator.git
 
 Is necessary to create a file called `.env` in the folder of each workspace, and set the environment variables from template:
 
-#### Server
+### Server
 
 ```bash
 # Database ( default of postgres docker image )
@@ -61,7 +56,7 @@ Final path of the file: `server/.env`
 
 _💊 Yes, currently is only needed to set the environment variables for the server workspace_
 
-#### Interface
+### Interface
 
 The interface workspace has one configuration file, the `Trunk.toml`, that is used to configure the build of the project, the file is located in the root folder of the project, and the default configuration is:
 
@@ -126,3 +121,63 @@ the [docker-compose](./docker-compose.yml) is configured to run the each workspa
 -   [server](./server/Dockerfile)
 
 _🤘 Reminder: If you need modify the Dockerfile of the workspaces, you need to rebuild the container with the `--build` flag, to take effect the changes, see more in the [docker-compose documentation](https://docs.docker.com/compose/reference/up/) documentation_
+
+### Simulator engine:
+
+### Setup
+Downloda the Godot4 with C# suport from [here](https://godotengine.org/download), and follow the C# SDK / tools setup from [here](https://docs.godotengine.org/en/stable/getting_started/scripting/c_sharp/c_sharp_basics.html).
+
+
+### Running the simulator
+Open the project in Godot4, using the file in [simulator](./simulator/project.godot) folder to import the project, and run the project.
+
+By default the godot engine will compile the project, and run the simulator. The current API url is set to `0.0.0.0:3003`(_Same as Backend_), but you can change it in the [simulator](./simulator/sources/Workspace.cs) folder.
+
+Example of the simulator running:
+
+![Simulator running](./docs/demo-simulator.gif)
+
+
+### API Documentation
+Currently the server is using the REST API to send the commands to the simulator, and the simulator is using the REST API to get the values of the simulation. But the idea is to use the websocket to send the data realtime, without request delay...
+
+#### Routes:
+
+-   `GET /api/v1/commands`: Get history of commands, in list, with the values of the simulation. Example output:
+```json
+[
+	{
+		"id": 1,
+		"name": "MOVE_XYZR",
+		"action": "60|60|60|12",
+		"type": "MANUAL",
+		"created_at": "2023-04-01T09:10:33.529+00:00",
+		"updated_at": "2023-04-01T09:10:33.529+00:00"
+	},
+	{
+		"id": 2,
+		"name": "MOVE_XYZR",
+		"action": "40|76|10|05",
+		"type": "MANUAL",
+		"created_at": "2023-04-01T09:11:18.990+00:00",
+		"updated_at": "2023-04-01T09:11:18.990+00:00"
+	}
+]
+```
+
+- `POST /api/v1/commands`: Create a new command in database for simulation, with the values of the simulation. Example input:
+```json
+{
+	"name": "MOVE_XYZR",
+	"action": "60|60|60|15"
+}
+```
+
+
+📺 _Action is the values of the simulation, in the format `X|Y|Z|R`, where `X`, `Y`, `Z` and `R` are the values of the simulation._
+
+Examples in Insomnia manual test:
+
+![image](./docs/Get.png)
+
+![image](./docs/Post.png)

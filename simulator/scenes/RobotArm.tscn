@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3 uid="uid://rlifx2aw57dl"]
+
+[ext_resource type="Script" path="res://sources/RobotArm.cs" id="1_w4yys"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_o6ogi"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umfr5"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tafci"]
+radius = 0.2
+height = 0.32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fsipn"]
+metallic = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_hxo2f"]
+size = Vector3(0.2, 0.7, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxo03"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m615e"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.28
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lusjg"]
+metallic = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_mlt7n"]
+size = Vector3(0.2, 0.7, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1mp6"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1h02l"]
+size = Vector3(0.1, 0.1, 0.15)
+
+[node name="RobotArm" type="Node3D"]
+script = ExtResource("1_w4yys")
+
+[node name="BaseMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.02448, 0, 0, 0, 1.02448, 0, 0, 0, 1.02448, 0, 0.033, 0)
+mesh = SubResource("BoxMesh_o6ogi")
+surface_material_override/0 = SubResource("StandardMaterial3D_umfr5")
+
+[node name="Arm1to2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.180131, 0)
+
+[node name="Joint" type="MeshInstance3D" parent="Arm1to2"]
+mesh = SubResource("SphereMesh_tafci")
+skeleton = NodePath("../..")
+
+[node name="MeshArm1to2" type="MeshInstance3D" parent="Arm1to2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.414509, 0)
+material_override = SubResource("StandardMaterial3D_fsipn")
+mesh = SubResource("BoxMesh_hxo2f")
+skeleton = NodePath("../..")
+
+[node name="Arm2to3" type="Node3D" parent="Arm1to2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Joint" type="MeshInstance3D" parent="Arm1to2/Arm2to3"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wxo03")
+mesh = SubResource("CylinderMesh_m615e")
+skeleton = NodePath("../../..")
+
+[node name="Arm3to4" type="Node3D" parent="Arm1to2/Arm2to3"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshArm3to4" type="MeshInstance3D" parent="Arm1to2/Arm2to3/Arm3to4"]
+transform = Transform3D(-4.37114e-08, -4.37114e-08, -1, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0.35)
+material_override = SubResource("StandardMaterial3D_lusjg")
+mesh = SubResource("BoxMesh_mlt7n")
+skeleton = NodePath("../../../..")
+
+[node name="Claw" type="MeshInstance3D" parent="Arm1to2/Arm2to3/Arm3to4/MeshArm3to4"]
+transform = Transform3D(1, 0, 2.11758e-22, 3.55271e-15, 1, -1.77636e-14, 2.11758e-22, 0, 1, 1.77636e-15, 0.258369, 0.170769)
+material_override = SubResource("StandardMaterial3D_h1mp6")
+mesh = SubResource("BoxMesh_1h02l")
