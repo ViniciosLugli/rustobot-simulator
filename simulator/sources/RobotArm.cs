@@ -317,12 +317,6 @@ public partial class RobotArm : Node3D
 		this.UpdateRPosition();
 	}
 
-	public void MoveAbsolute(Position position)
-	{
-		// Move the robot arm to the specified position
-		this.world.position = position;
-	}
-
 	public void Move(Position position, bool relative = true)
 	{
 		// Move the robot arm to the specified position relative to the current position
@@ -375,11 +369,12 @@ public partial class RobotArm : Node3D
 		this.world = new WorldPosition();
 		this.head_rotation = new HeadRotation();
 
-		this.SetQueue(true);
+		this.SetQueue(false);
 	}
 
 	public override void _Process(double delta)
 	{
 		this.UpdatePivots();
+		this.GetNode<Label>("../Control/Label").Text = $"Current point:\nX: {Math.Round(this.Arm1to2.RotationDegrees.X, 2)} | Y: {Math.Round(this.Arm1to2.RotationDegrees.Y, 2)} | Z: {Math.Round(this.Arm2to3.RotationDegrees.X, 2)} | R: {Math.Round(this.Claw.RotationDegrees.Z, 2)}";
 	}
 }

@@ -1,0 +1,24 @@
+generator client {
+    provider = "cargo prisma"
+    output   = "../src/db.rs"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum CommandType {
+    MANUAL
+    CODE
+    UNKNOWN
+}
+
+model Command {
+    id         Int         @id @default(autoincrement())
+    name       String
+    action     String
+    type       CommandType @default(UNKNOWN)
+    created_at DateTime    @default(now())
+    updated_at DateTime    @updatedAt
+}
